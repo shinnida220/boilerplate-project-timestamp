@@ -14,7 +14,7 @@ app.use(cors({ optionsSuccessStatus: 200 }));  // some legacy browsers choke on 
 app.use(express.static('public'));
 
 // The needed routes
-app.get('/api/:dateString', (req, res) => {
+app.get(['/api/:dateString', '/api'], (req, res) => {
   // Reformat our param
   // req.params.dateString = req.params?.dateString?.includes('-') ?
   // req.params?.dateString : Number(req.params?.dateString);
