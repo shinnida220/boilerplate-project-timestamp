@@ -15,9 +15,12 @@ app.use(express.static('public'));
 
 // The needed routes
 app.get('/api/:dateString', (req, res) => {
-  console.log(req.params, new Date(req.params?.dateString));
+  // Reformat our param
+  req.params.dateString = req.params?.dateString?.includes('-') ?
+    req.params?.dateString : Number(req.params?.dateString);
+
   // create the date object.
-  const date = new Date(req.params?.dateString);
+  const date = new Date(req.params.dateString);
   res.json({ unix: date.getTime(), utc: date.toUTCString() });
 });
 
