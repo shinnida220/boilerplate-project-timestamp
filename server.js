@@ -30,17 +30,21 @@ app.get('/api/:dateString', (req, res) => {
     // return response..
     res.json({ unix: date.getTime(), utc: date.toUTCString() });
   } else {
-
-    const timestamp = Date.parse(req.params?.dateString);
-    if (isNaN(timestamp) == false) {
-      // create the date object.
-      date = new Date(timestamp);
-
+    // If a set a number was entered..
+    if (!isNaN(req.params?.dateString)) {
+      date = new Date(Number(req.params?.dateString));
       // return response..
       res.json({ unix: date.getTime(), utc: date.toUTCString() });
-
     } else {
-      res.json({ error: "Invalid Date" });
+      const timestamp = Date.parse(req.params?.dateString);
+      if (isNaN(timestamp) == false) {
+        // create the date object.
+        date = new Date(timestamp);
+        // return response..
+        res.json({ unix: date.getTime(), utc: date.toUTCString() });
+      } else {
+        res.json({ error: "Invalid Date" });
+      }
     }
   }
 });
