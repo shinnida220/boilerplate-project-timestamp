@@ -16,12 +16,33 @@ app.use(express.static('public'));
 // The needed routes
 app.get('/api/:dateString', (req, res) => {
   // Reformat our param
-  req.params.dateString = req.params?.dateString?.includes('-') ?
-    req.params?.dateString : Number(req.params?.dateString);
+  // req.params.dateString = req.params?.dateString?.includes('-') ?
+  // req.params?.dateString : Number(req.params?.dateString);
 
-  // create the date object.
-  const date = new Date(req.params.dateString);
-  res.json({ unix: date.getTime(), utc: date.toUTCString() });
+  // // create the date object.
+  // const date = new Date(req.params.dateString);
+  // res.json({ unix: date.getTime(), utc: date.toUTCString() });
+
+  let date;
+  // Empty date
+  if (undefined === req.params?.dateString) {
+    date = new Date();
+    // return response..
+    res.json({ unix: date.getTime(), utc: date.toUTCString() });
+  } else {
+
+    const timestamp = Date.parse(req.params?.dateString);
+    if (isNaN(timestamp) == false) {
+      // create the date object.
+      date = new Date(timestamp);
+
+      // return response..
+      res.json({ unix: date.getTime(), utc: date.toUTCString() });
+
+    } else {
+      res.json({ error: "Invalid Date" });
+    }
+  }
 });
 
 // http://expressjs.com/en/starter/basic-routing.html
