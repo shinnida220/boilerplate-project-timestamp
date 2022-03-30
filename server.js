@@ -15,6 +15,7 @@ app.use(express.static('public'));
 
 // The needed routes
 app.get('/api/:dateString', (req, res) => {
+  console.log(req.params, new Date(req.params?.dateString));
   // create the date object.
   const date = new Date(req.params?.dateString);
   res.json({ unix: date.getTime(), utc: date.toUTCString() });
